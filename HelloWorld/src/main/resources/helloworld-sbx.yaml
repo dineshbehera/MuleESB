@@ -1,0 +1,7 @@
+http:
+  url: localhost
+  port: "8091"
+  
+propuser:
+  type: sbx
+  name: dinesh-sbx

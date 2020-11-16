@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3cb386d1-3d24-481f-af5d-9ad5a6633026" >
+		<http:listener-connection host="${http.url}" port="${http.port}" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="b5f741bb-8123-4c42-9a81-497e71688bef" file="helloworld-${env}.yaml" />
+	<flow name="testapp1Flow" doc:id="19b6aeda-de59-436d-a7d8-e271c32a667c" >
+		<http:listener doc:name="Listener" doc:id="3af6196b-320f-4216-8dbb-018102a1ab8b" config-ref="HTTP_Listener_config" path="hello-world"/>
+		<logger level="INFO" doc:name="Logger" doc:id="aeb93593-2127-4a44-9b4c-46b2739f261c" message="start propuser name is  : ${propuser.name}"/>
+		<set-variable value="${propuser.name}" doc:name="Set Variable" doc:id="7b4ec922-26dc-4b81-ab6f-863628a7d486" variableName="propusername"/>
+		<ee:transform doc:name="Transform Message" doc:id="178a373d-a3a1-4c8b-80de-57266d441e4c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"User" 		: attributes.queryParams.user,
+	"Message " 	: "Lucky number " ++ randomInt(100),
+	"DateTime"	: now(),
+	"data"		: payload,
+	"heders"	: attributes,
+	"username"	: vars.propusername
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="627526b8-e3c4-4480-a457-7299cb20811f" message="end propuser name is  : ${propuser.name}"/>
+	</flow>
+</mule>
