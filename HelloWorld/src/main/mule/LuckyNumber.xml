@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3cb386d1-3d24-481f-af5d-9ad5a6633026" >
-		<http:listener-connection host="${http.url}" port="${http.port}" />
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="b5f741bb-8123-4c42-9a81-497e71688bef" file="helloworld-${env}.yaml" />
 	<flow name="testapp1Flow" doc:id="19b6aeda-de59-436d-a7d8-e271c32a667c" >

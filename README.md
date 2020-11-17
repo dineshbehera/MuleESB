@@ -1,4 +1,4 @@
 # MuleESB
 
 ## Helloworld
-http://localhost:8091/hello-world
+http://localhost:8091/hello-world?user=Dinesh
