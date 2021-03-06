@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="timezone-test-suite.xml" />
+	<munit:test name="timezone-test-suite-timezoneFlowTest" doc:id="66977972-66c3-4f03-91d5-4119e148242c" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to timezoneFlow" doc:id="1c8dd62b-b2ce-44ca-abdc-31e85644ae49" name="timezoneFlow"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>
