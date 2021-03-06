@@ -36,6 +36,7 @@
                             <artifactId>mysql-connector-java</artifactId>
                         </sharedLibrary>
                     </sharedLibraries>
+                <classifier>mule-application</classifier>
                 </configuration>
             </plugin>
 		</plugins>
@@ -64,6 +65,19 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
+        </dependency>
+    	<dependency>
+            <groupId>474c27a0-a7c9-4497-8172-8ab91f868908</groupId>
+            <artifactId>american-flights-api</artifactId>
+            <version>1.0.1</version>
+            <classifier>raml</classifier>
+            <type>zip</type>
+        </dependency>
+    	<dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-apikit-module</artifactId>
+            <version>1.3.16</version>
+            <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<flow name="VMListenerFlow3" doc:id="2e12a3ff-f9ab-46c1-9526-7335967618fb" >
+		<vm:listener doc:name="Listener" doc:id="0690193c-d0e2-4029-83e3-69c441e1989d" config-ref="VM_Config" queueName="PERSISTENTQ"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a000d0ce-e493-42f1-b13b-248d554dbdcc" message="Message received in VM-Listener-3"/>
+	</flow>
+	<flow name="VMListenerFlow4" doc:id="5e4decdc-a539-412d-9dbe-45e58107d244" >
+		<vm:listener doc:name="Listener" doc:id="bc828030-c117-4299-a932-5bf96106a99e" config-ref="VM_Config" queueName="PERSISTENTQ"/>
+		<logger level="INFO" doc:name="Logger" doc:id="88c8af27-9b6f-4ac4-a65e-d0acfc1455bf" message="Message received in VM-Listener-4"/>
+	</flow>
+</mule>
