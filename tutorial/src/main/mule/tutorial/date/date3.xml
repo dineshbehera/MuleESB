@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="date3Flow" doc:id="749813d5-3716-4758-aa0f-9fcd41e016f6" >
+		<http:listener doc:name="Listener" doc:id="54cb6cbe-afff-47f9-b369-eebfec9c53eb" config-ref="HTTP_Listener_config" path="/tutorial/date/date3" doc:description="http://localhost:8092/tutorial/date/date3"/>
+		<ee:transform doc:name="Transform Message" doc:id="fc779514-5483-44ce-a96a-4bf1d66f6c03" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var period = (|2010-12-10T12:10:12| - |2010-12-05T10:02:10|)
+---
+{
+ period : period,
+ periodAsNumber: period as Number,
+ nanos: period as Number {unit: "nanos"},
+ millis: period as Number {unit: "milliseconds"},
+ seconds: period as Number {unit: "seconds"},
+ hours: period as Number {unit: "hours"},
+ days: period as Number {unit: "days"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

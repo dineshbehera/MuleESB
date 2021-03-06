@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+	<flow name="xml-to-json-transformFlow" doc:id="fac4dd0d-3d0c-47a6-b563-f0d53d2e6a71" >
+		<http:listener doc:name="Listener" doc:id="c7b24e15-d014-426f-b4e1-598d660041f2" config-ref="HTTP_Listener_config" path="/tutorial/xml-to-json-transform"/>
+		<set-variable value="#[[]]" doc:name="Set Variable" doc:id="e238e75e-50cb-4eac-b01e-374bac13fa9e" variableName="aggVar"/>
+		<foreach doc:name="For Each" doc:id="c3cc6212-1a8e-4d6a-98c5-8a7117f37d2f" collection="#[payload.book]">
+			<logger level="INFO" doc:name="Logger" doc:id="cb9398a1-415c-4335-882a-6616e1d06517" message="#[payload]"/>
+			<ee:transform doc:name="Transform Message" doc:id="8dddf4d6-a313-4556-8c43-5f56db8e2c83" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="180fc26b-0982-4925-a92e-da8ab46b3b74" message="#[payload]"/>
+			<flow-ref doc:name="Flow Reference" doc:id="c2c6141d-0887-4e08-9481-b188fac8465b" name="xml-to-json-transformSub_Flow"/>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="000261c6-cee1-4fca-845f-de83939da904" message="#[vars.aggVar]"/>
+		<set-payload value="#[vars.aggVar]" doc:name="Set Payload" doc:id="d4d9ff08-3358-43d5-863d-978cc97ecfe2" />
+	</flow>
+	<sub-flow name="xml-to-json-transformSub_Flow" doc:id="d81b8abb-04d1-48b0-ba4e-fc04aa3c55a8" >
+		<ee:transform doc:name="Transform Message" doc:id="bba9e3a0-203e-47a8-8287-14c3064613e2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="aggVar" ><![CDATA[%dw 2.0
+output application/java
+---
+vars.aggVar + payload.element]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="3dd47389-bfb8-42f0-9df4-54e08ba80d16" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="aggVar" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.aggVar]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

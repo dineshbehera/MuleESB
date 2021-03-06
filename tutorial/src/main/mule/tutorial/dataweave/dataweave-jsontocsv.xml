@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="dataweave-jsontocsvFlow" doc:id="8f080756-a602-495e-ad4d-67b68cf44e50" >
+		<http:listener doc:name="Listener" doc:id="d987702e-8d6e-41c5-bf16-eb355968e1fc" config-ref="HTTP_Listener_config" path="/tutorial/dataweave-jsontocsv"/>
+		<ee:transform doc:name="Transform Message" doc:id="a844d051-d920-40ae-b68d-eca1a978771c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+
+var var2 = [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 17
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+output application/csv
+---
+var2]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="ce55d968-a81e-4bd1-8387-f6e5798b7bb8" message="#[payload]"/>
+	</flow>
+</mule>

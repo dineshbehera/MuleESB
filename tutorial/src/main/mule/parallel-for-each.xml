@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="parallel-for-eachFlow" doc:id="8fd2d742-ec7e-459a-8400-a956a5c3414a" >
+		<http:listener doc:name="Listener" doc:id="d52aec54-14e3-4516-b512-4784611a6c8a" config-ref="HTTP_Listener_config" path="/tutorial/parallel-for-eachFlow"/>
+		<parallel-foreach doc:name="Parallel For Each" doc:id="a37e8e47-3fcf-4d93-ae7c-612db82628cd" collection="#[payload.book]" maxConcurrency="3">
+			<validation:is-number doc:name="Is number" doc:id="60efa12b-ebf9-484e-9dc8-3804dd8e0c17" value="#[payload.id]" numberType="INTEGER"/>
+			<logger level="INFO" doc:name="Logger" doc:id="8321d6f1-1cf6-4391-83ac-95a8bf4b0186" message="#[payload]" />
+		</parallel-foreach>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="c0085849-976d-4626-af91-d680e68534f3" />
+	</flow>
+</mule>

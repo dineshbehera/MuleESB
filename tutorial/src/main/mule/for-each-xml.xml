@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="for-each-xmlFlow" doc:id="f933d7e0-d37c-4afc-9df8-f60f270ce920" >
+		<http:listener doc:name="Listener" doc:id="685abece-c6b1-48c1-95ab-a9c67a40b935" config-ref="HTTP_Listener_config" path="/tutorial/for-each-xml"/>
+		<foreach doc:name="For Each" doc:id="9d3399b5-1531-45a0-9720-0e3f5e09f919" collection="#[payload.book]">
+			<logger level="INFO" doc:name="Logger" doc:id="dd0b3809-a080-4aae-9410-93b8dba6b6c9" message="#[payload]"/>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="57791a9a-2dc9-44fa-8fa0-5854369c67dd" message="#[payload]"/>
+	</flow>
+</mule>

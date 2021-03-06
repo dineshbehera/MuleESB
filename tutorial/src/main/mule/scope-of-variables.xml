@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="sub-flowFlow" doc:id="83cb82e2-630d-497c-94c0-3c64cba9610a" >
+		<http:listener doc:name="Listener" doc:id="864a118b-3e04-4e50-bfb4-ff89a6c984f0" config-ref="HTTP_Listener_config" path="/tutorial/sub-flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="18985c41-f491-4604-86e0-35b39cf4d891" message='#["Start"]'/>
+		<set-variable value='#["Nothing"]' doc:name="Set Variable" doc:id="88f27137-50b9-4589-8c74-be76ef5d4658" variableName="retVal"/>
+		<set-payload value="#[vars.retVal]" doc:name="Set Payload" doc:id="5aa65d86-4c26-4748-98eb-f1ef69a7122a" />
+		<flow-ref doc:name="Flow Reference" doc:id="90704249-693b-4d14-a976-253cbcba8665" name="sub-flowSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2f834f6c-a06e-4942-a63c-4a6b04aed4a5" message='#["End"]'/>
+	</flow>
+	<sub-flow name="sub-flowSub_Flow" doc:id="e85b4996-a347-4fe0-a55b-e1cba90190d8" >
+		<logger level="INFO" doc:name="Logger" doc:id="55c4b505-5b69-46a1-b079-88cbba9ab2d2" message='#["Inside sub-flow"]'/>
+		<file:read doc:name="Read" doc:id="e09d1833-12b3-46ea-99df-5e5a2dfa73ec" path="C:\Project\zambas\workstation\MuleESB\studio-workspace\tutorial\pom.xml" />
+		<set-variable value='#["Something on sub flow"]' doc:name="Set Variable" doc:id="b7a4d3bb-b6a9-49dd-b036-77dd025eba5d" variableName="retVal"/>
+		<set-payload value='#["Payload changed in subflow"]' doc:name="Set Payload" doc:id="602700da-d509-42e2-8e7b-8712fd9ab89d" />
+	</sub-flow>
+</mule>

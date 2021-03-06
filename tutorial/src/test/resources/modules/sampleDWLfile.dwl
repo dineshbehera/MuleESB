@@ -1,0 +1,1 @@
+fun greetingMessage(name : String) = "Hello "++ name ++ "Welcome to Mulesoft"

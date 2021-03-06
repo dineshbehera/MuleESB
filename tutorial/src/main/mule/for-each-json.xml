@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="84a3728e-0f7f-42df-8e49-8943099dd010">
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<flow name="for-eachFlow" doc:id="05e76e4a-3509-448f-91a5-78a5be0db7dc" >
+		<http:listener doc:name="Listener" doc:id="30daa78d-03b4-4bba-b7b0-6848a52decb2" config-ref="HTTP_Listener_config" path="/tutorial/for-each-json"/>
+		<foreach doc:name="For Each" doc:id="c7476245-9f61-4b92-871c-a24758cb905b" collection="#[payload.book]">
+			<logger level="INFO" doc:name="Logger" doc:id="5a661f36-bf66-4152-b49b-9bfa618ec769" message="#[payload]"/>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="5e189d9d-471d-4365-8c0f-77909d1f171d" message="#[payload]"/>
+	</flow>
+</mule>

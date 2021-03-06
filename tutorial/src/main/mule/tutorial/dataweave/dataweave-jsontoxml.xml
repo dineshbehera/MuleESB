@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="dataweave1Flow" doc:id="f21f9907-ef3e-476b-abf1-6e240924b284" >
+		<http:listener doc:name="Listener" doc:id="fa759efd-18e7-45b8-beec-73536f07ffd8" config-ref="HTTP_Listener_config" path="/tutorial/dataweave-jsontoxml"/>
+		<ee:transform doc:name="Transform Message" doc:id="23967a84-7c3c-454b-9adc-822c84cb64d3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var payload1= [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 35
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+output application/json
+---
+"Hi " ++ payload1[0].name]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="0c440b5e-7238-46be-892e-2d793444bd3c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+var var1 = [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 17
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+---
+var1 map(payload, index) -> {
+	"emp_name" : payload.name,
+	"address" : payload.state,
+	"category" : if(payload.age <=18) "Minor" else "Adult"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="7783ad3e-4cd7-481c-8c4e-94606aa89b93" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+
+var var1 = [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 17
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+---
+
+result : 
+emp : var1 map(payload, index) -> {
+	"emp_name" : payload.name,
+	"address" : payload.state,
+	"category" : if(payload.age <=18) "Minor" else "Adult"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="xsv" doc:id="54e78166-0020-4469-b1b7-d382800170b6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+
+var var2 = [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 17
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+output application/csv
+---
+var2]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="243afdb4-0494-4607-ab10-2b31e6d60c82" message="#[payload]"/>
+	</flow>
+</mule>

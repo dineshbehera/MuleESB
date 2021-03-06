@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="dataweave-functionsFlow" doc:id="b523af59-adf6-458a-85da-5e2bec6647d1" >
+		<http:listener doc:name="Listener" doc:id="7446f83b-4bff-4b29-a644-2863dbeef6c4" config-ref="HTTP_Listener_config" path="/tutorial/dataweave-functions"/>
+		<ee:transform doc:name="reduce" doc:id="67b4153e-420c-4168-85a9-91a3b2a99477" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var var3 = [{
+	"name": "Akash Sharma",
+	"state": "Odisha",
+	"age": 17
+},
+{
+	"name": "Barsha Deo",
+	"state": "UP",
+	"age": 25
+},
+{
+	"name": "Badal Kumar",
+	"state": "UP",
+	"age": 30
+}]
+output application/json
+---
+{   "concat": ["a", "b", "c", "d"] reduce ((item, acc = "z") -> acc ++ item),
+"sum": [0, 1, 2, 3, 4, 5] reduce ((item, acc = 3) -> acc + item),
+"multiply": [2,3,3] reduce ((item, acc) -> acc * item),
+"multiplyAcc": [2,2,3] reduce ((item, acc = 3) -> acc * item)
+   
+
+     }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="pluck" doc:id="a5c968b7-6642-4114-96d9-b7956a4b2da2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a= {name:"Akash", sal:30}
+output application/json
+---
+a pluck ((value, key, index) -> {
+	"value is ": value
+}) ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="flatten" doc:id="9b7afa8c-93aa-4efe-a35a-7dc2165b92d0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a= [{name:"Akash", sal:30, state : "ODISHA"},{name:"Barsha", sal:25, state : "UP"},{name:"BADAL", sal:35, state : "AP"}]
+output application/json
+---
+flatten(a.name)  // a.name also gives the same output
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="flatten" doc:id="5d7b83b3-72ad-458b-bdb6-6b76f365cfc0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a = [{name:"Akash", sal:30},{name:"Barsha", sal:25}]
+var b = [{name:"Badal", sal:34},{name:"Bijli", sal:23}]
+output application/json
+---
+flatten(a.name+b.name)
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="upper" doc:id="d17acfab-0468-4049-8b98-2f7c3d158104" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a = [{name:"Akash", sal:30},{name:"Barsha", sal:25},{name:"Badal", sal:34},{name:"Bijli", sal:23}]
+var b = []
+output application/json
+---
+a map upper($.name)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="filter" doc:id="4761a612-9ff2-44b7-8176-fedee7f8fcb3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a = [{name:"Akash", sal:30},{name:"Barsha", sal:25},{name:"Badal", sal:34},{name:"Bijli", sal:23}]
+var b = []
+output application/json
+---
+(a map ((item, index) -> {
+	name : item.name,
+	salary : item.sal
+})) filter $.salary > 25
+
+
+// Below code will also work
+/* T
+(a map {
+	name :  $.name,
+	salary : $.sal
+}) filter $.salary > 25
+*  
+*/]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="groupby" doc:id="5ba2af89-ae5c-44b4-a595-91cfa506eb3e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var a = [{name:"Akash", sal:30,state:"OR"},{name:"Barsha", sal:25, state:"UP"},{name:"Badal", sal:34,state:"UP"},{name:"Bijli", sal:23,state:"AP"}]
+var b = []
+output application/json
+---
+(a map ((item, index) -> {
+	name : item.name,
+	origin_state : item.state
+})) orderBy $.origin_state
+groupBy $.origin_state]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="xml attributes" doc:id="2a7e1d4d-61bb-4096-887b-8650660654e5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+var a = [{name:"Akash", id:30,state:"OR"},{name:"Barsha", id:25, state:"UP"},{name:"Badal", id:34,state:"UP"},{name:"Bijli", id:23,state:"AP"}]
+
+---
+EmployeeDetails: {
+	(a map {
+		Empplyee @(id : $.id): {
+			name: $.name,
+			state: $.state
+		}
+	})
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="function" doc:id="d911b142-55fd-4776-8635-c5a5bc5efec2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0//import modules::sampleDWLfilefun createUID(name: String, id: Number) = name ++ "_" ++ id
+output application/json
+---
+{
+	uid : "Akash"++"-"++"123",
+	uuid2: createUID("Barsha", 234),	//message : sampleDWLfile::greetingMessage("Badal")
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,51 @@
+{
+	"book": [
+		{
+			"id": "01",
+			"language": "Java",
+			"edition": "third",
+			"author": "Herbert Schildt"
+		},
+		{
+			"id": "07",
+			"language": "C++",
+			"edition": "second",
+			"author": "E.Balagurusamy"
+		}
+	]
+}
+
+
+{"book":[{"id":"01","language":"Java","edition":"third","author":"Herbert Schildt"},{"id":"07","language":"C++","edition":"second","author":"E.Balagurusamy"}]}
+
+curl "http://localhost:8092/tutorial/for-each-json" \
+  -X POST \
+  -d "{\"book\":[{\"id\":\"01\",\"language\":\"Java\",\"edition\":\"third\",\"author\":\"Herbert Schildt\"},{\"id\":\"07\",\"language\":\"C++\",\"edition\":\"second\",\"author\":\"E.Balagurusamy\"}]}" \
+  -H "Content-Type: application/json" 
+  
+ 
+
+<?xml version="1.0" encoding="UTF-8"?>
+   <book>
+      <element>
+         <author>Herbert Schildt</author>
+         <edition>third</edition>
+         <id>01</id>
+         <language>Java</language>
+      </element>
+      <element>
+         <author>E.Balagurusamy</author>
+         <edition>second</edition>
+         <id>07</id>
+         <language>C++</language>
+      </element>
+</book>
+
+
+curl "http://localhost:8092/tutorial/for-each-xml" \
+  -X POST \
+  -d "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n   <book>\n      <element>\n         <author>Herbert Schildt</author>\n         <edition>third</edition>\n         <id>01</id>\n         <language>Java</language>\n      </element>\n      <element>\n         <author>E.Balagurusamy</author>\n         <edition>second</edition>\n         <id>07</id>\n         <language>C++</language>\n      </element>\n</book>" \
+  -H "Content-Type: application/xml" 
+  
+  
+ 

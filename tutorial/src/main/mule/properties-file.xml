@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="1e9b1dd9-2d3a-4907-8216-5f804fa97f5c" file="dev-config.properties" />
+	<flow name="properties-fileFlow" doc:id="0bd983fa-191c-4b36-b65a-8e6b69197073" >
+		<http:listener doc:name="Listener" doc:id="af844f95-39c7-4515-bee5-9072c47adcce" config-ref="HTTP_Listener_config" path="/tutorial/properties-file"/>
+		<set-payload value="${message}" doc:name="Set Payload" doc:id="fb5baeb9-0adc-43a8-8ef0-8b3039c9970e" />
+		<set-payload value="#['${message}']" doc:name="Set Payload" doc:id="00daf96c-d577-47a5-b92d-0ba59f8c76e7" />
+		<logger level="INFO" doc:name="Logger" doc:id="bba59c93-5426-4c93-8b4d-4114ad59fab7" message="Method 1 : Rading value from property : ${message}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="031f2060-4c3a-42dc-8c35-729a92c4b80c" message="#['Method 2 : Reading value from property : ' ++ '${message}']"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d1a65a3f-253a-43c9-a03e-2bbf1cfaac17" message="Method 3: Reading value from property : p('message') . It will not work as its not inside date weave language"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4bb01bbf-21f2-417e-b7b0-9b90687e0cc4" message="#[&quot;Method 3: Reading value from property :&quot; ++ p('message')]"/>
+		<ee:transform doc:name="Transform Message" doc:id="f640af72-ef09-4591-85d4-2591b767564d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Method5 : 'Reading value from property by dollar  :' ++'${message}',
+	Method6 : 'Reading value from property by  "p()   : ' ++ p('message')
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="date1Flow" doc:id="45474558-8501-46c0-a360-5056e78b6d91" >
+		<http:listener doc:name="Listener" doc:id="3831831f-9bf6-4574-9aeb-4ee838821cac" config-ref="HTTP_Listener_config" path="/tutorial/date/date1" doc:description="http://localhost:8092/tutorial/date/date1"/>
+		<ee:transform doc:name="Transform Message" doc:id="b6e390dd-a2a3-4890-9bd3-cb50dd301cba" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var myDate = |2020-01-01T23:57:59.700-03:00|
+---
+{
+	year: myDate.year,
+	month: myDate.month,
+	day: myDate.day,
+	hour: myDate.hour,
+	minutes: myDate.minutes,
+	seconds: myDate.seconds,
+	milliseconds: myDate.milliseconds,
+	nanoseconds: myDate.nanoseconds,
+	quarter: myDate.quarter,
+	dayOfWeek: myDate.dayOfWeek,
+	dayOfYear: myDate.dayOfYear,
+	offsetSeconds: myDate.offsetSeconds
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

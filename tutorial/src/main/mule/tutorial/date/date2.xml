@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="date2Flow" doc:id="e317e843-f72a-4f74-a474-34deda84055b" >
+		<http:listener doc:name="Listener" doc:id="41f8a369-6aad-4747-bb07-d27fea6834bd" config-ref="HTTP_Listener_config" doc:description="http://localhost:8092/tutorial/date/date2" path="tutorial/date/date2"/>
+		<ee:transform doc:name="Transform Message" doc:id="5c354995-b2ed-4a56-85cb-a75fb72b018d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	datediff: |2003-11-01| - |2003-10-01|
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
