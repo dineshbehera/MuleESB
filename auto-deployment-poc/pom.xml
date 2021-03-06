@@ -71,8 +71,7 @@
 				</executions>
 				<configuration>
 					<coverage>
-						<!-- <runCoverage>true</runCoverage> -->
-						<skipMunitTests>true</skipMunitTests>
+						<runCoverage>false</runCoverage>
 						<formats>
 							<format>html</format>
 						</formats>
